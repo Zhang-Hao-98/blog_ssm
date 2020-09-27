@@ -32,7 +32,7 @@
       <div class="container-fluid">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false"> <span class="sr-only">切换导航</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
-          <a class="navbar-brand" href="/blog/toBlogList">SOFTEEMCMS</a> </div>
+          <a class="navbar-brand" href="/blog-index.jsp">SOFTEEMCMS</a> </div>
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav navbar-right">
             <li><a href="">消息 <span class="badge">1</span></a></li>
@@ -71,7 +71,7 @@
         <li class="active"><a href="/user-report.jsp" target="userIframe">报告</a></li>
       </ul>
       <ul class="nav nav-sidebar">
-        <li><a href="/blog/toBlogForYUser" target="userIframe">文章</a></li>
+        <li><a href="/user-article.jsp" target="userIframe">文章</a></li>
         <li><a href="notice.html">公告</a></li>
         <li><a href="comment.html">评论</a></li>
         <li><a data-toggle="tooltip" data-placement="bottom" title="网站暂无留言功能">留言</a></li>

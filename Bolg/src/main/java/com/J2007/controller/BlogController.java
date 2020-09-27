@@ -49,8 +49,9 @@ public class BlogController {
         return State.success().add("pageInfo", pageInfo);
     }
 
-    @RequestMapping("toBlogForYUser/{pageNum}")
-    public State toBlogByUser(ModelMap modelMap,HttpSession session,@PathVariable("pageNum")int pageNum) {
+    @RequestMapping("toBlogForUser/{pageNum}")
+    @ResponseBody
+    public State toBlogByUser(HttpSession session,@PathVariable("pageNum")int pageNum) {
         User user = (User)session.getAttribute("user");
         PageInfo<Blog> pageInfo = blogService.findByUser(user.getUserId(),pageNum,10);
         return State.success().add("pageInfo", pageInfo);

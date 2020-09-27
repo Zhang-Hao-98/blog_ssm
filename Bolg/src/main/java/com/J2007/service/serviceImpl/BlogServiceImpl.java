@@ -41,9 +41,7 @@ public class BlogServiceImpl implements BlogService {
     public PageInfo<Blog> findByUser(int userId,Integer pageNum, Integer pageSize) {
         PageHelper.startPage(pageNum, pageSize);
         List<Blog> blogList = blogMapper.selectByUser(userId);
-        System.out.println("blogList---"+blogList);
         PageInfo<Blog> pageInfo = new PageInfo<Blog>(blogList);
-
         return pageInfo;
     }
 

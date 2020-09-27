@@ -110,7 +110,7 @@
         
         <hr>
 
-        <%--<form class="am-form am-g">--%>
+        <form class="am-form am-g">
             <h3 class="blog-comment">评论</h3>
           <fieldset>
             <div class="am-form-group">
@@ -119,7 +119,7 @@
         
             <p><button type="button" id="send" class="am-btn am-btn-default">发表评论</button></p>
           </fieldset>
-        <%--</form>--%>
+        </form>
 
         <hr>
         0
@@ -171,5 +171,9 @@
 <![endif]-->
 <script src="/assets/js/amazeui.min.js"></script>
 <!-- <script src="assets/js/app.js"></script> -->
+
+<script type="text/javascript">
+
+</script>
 </body>
 </html>

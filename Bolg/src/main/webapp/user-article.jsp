@@ -34,7 +34,7 @@
         <ol class="breadcrumb">
           <li><a href="/blog/toAddBlog">增加文章</a></li>
         </ol>
-        <h1 class="page-header">管理 <span class="badge">7</span></h1>
+        <h1 class="page-header">管理 <span class="badge" id="blogNum">7</span></h1>
         <div class="table-responsive">
           <table class="table table-striped table-hover">
             <thead>
@@ -50,20 +50,7 @@
                 <th><span class="glyphicon glyphicon-pencil"></span> <span class="visible-lg">操作</span></th>
               </tr>
             </thead>
-            <tbody>
-            <c:forEach var="blog" items="${UserBlogs}">
-              <tr>
-                <td><input type="checkbox" class="input-control" name="checked" value="${blog.blogId}" /></td>
-                <td class="article-title">${blog.title}</td>
-                <td>${blog.categroy.name}</td>
-                <td class="hidden-sm">PHP、JavaScript</td>
-                <td class="hidden-sm">${blog.commentNum}</td>
-                <td class="hidden-sm">${blog.readNum}</td>
-                <td>${blog.publishTime}</td>
-                <td>${blog.lastModifyTime}</td>
-                <td><a href="">修改</a></td>
-              </tr>
-            </c:forEach>
+            <tbody id="contents">
             </tbody>
           </table>
         </div>
@@ -75,14 +62,8 @@
                 <button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="bottom" title="删除全部选中" name="checkbox_delete">删除</button>
               </div>
             </div>
-            <ul class="pagination pagenav">
-              <li class="disabled"><a aria-label="Previous"> <span aria-hidden="true">&laquo;</span> </a> </li>
-              <li class="active"><a href="#">1</a></li>
-              <li><a href="#">2</a></li>
-              <li><a href="#">3</a></li>
-              <li><a href="#">4</a></li>
-              <li><a href="#">5</a></li>
-              <li><a href="#" aria-label="Next"> <span aria-hidden="true">&raquo;</span> </a> </li>
+            <ul class="pagination pagenav" id="pagenation">
+
             </ul>
           </nav>
         </footer>
@@ -94,7 +75,10 @@
 <script src="/assets/js/admin-scripts.js"></script>
 <script>
 //是否确认删除
-$(function(){   
+$(function(){
+
+  goPage(1);
+
 	$("[name=checkbox_delete]").click(function(){
       var list = new Array();
       $('[name=checked]:checked').each(function () {
@@ -115,8 +99,65 @@ $(function(){
 				});
 			};
 		};
-	});   
+	});
+
+
 });
+
+//获取分页
+function goPage(cp) {
+  $.get('/blog/toBlogForUser/'+cp, function (data) {
+    data = data.extend.pageInfo;
+    pageInfo = data;
+    console.info("后"+data.nextPage);
+    var list = data.list;
+    var tadata = '';
+    for (var i = 0; i < list.length; i++) {
+      tadata += '<tr>';
+      tadata += '<td><input type="checkbox" class="input-control" name="checked" value="'+list[i].blogId+'" /></td>';
+      tadata += '<td class="article-title">'+list[i].title+'</td>' ;
+      tadata += '<td>'+list[i].categroy.name+'</td>' ;
+      tadata += '<td class="hidden-sm">PHP、JavaScript</td>\n' ;
+      tadata += '<td class="hidden-sm">'+list[i].commentNum+'</td>' ;
+      tadata += '<td class="hidden-sm">'+list[i].readNum+'</td>' ;
+      tadata += '<td>'+list[i].publishTime+'</td>' ;
+      tadata += '<td>'+list[i].lastModifyTime+'</td>' ;
+      tadata += '<td><a href="">修改</a></td>' ;
+      tadata += '</tr>';
+    }
+    $('#contents')[0].innerHTML = tadata;
+    $('#blogNum').html(data.total);
+    genPageLink(data)
+  });
+}
+
+//分页连接
+function genPageLink(data) {
+    var ul = '';
+    if (data.pageNum == 1) {
+        ul += ' <li class="disabled"><a aria-label="Previous" onclick="goPage('+data.prePage+')"> <span aria-hidden="true">&laquo;</span> </a> </li>';
+    } else {
+        ul += ' <li ><a aria-label="Previous" onclick="goPage('+data.prePage+')"> <span aria-hidden="true">&laquo;</span> </a> </li>';
+    }
+
+    //中间也
+    for (var i = 1; i <= data.pages; i++) {
+        if (data.pageNum == i) {
+            ul += '<li class="active"><a href="javascript:goPage(' + i + ');">' + i + '</a></li>';
+        } else {
+            ul += '<li ><a href="javascript:goPage(' + i + ');">' + i + '</a></li>';
+        }
+    }
+
+    //下一页
+    if (data.pageNum == data.pages) {
+        ul += '<li class="disabled"><a href="javascript:goPage(' + data.nextPage + ');">&raquo;</a></li>';
+    } else {
+        ul += '<li><a href="javascript:goPage(' + data.nextPage + ');">&raquo;</a></li>';
+    }
+
+    $('#pagenation')[0].innerHTML = ul;
+}
 </script>
 </body>
 </html>
