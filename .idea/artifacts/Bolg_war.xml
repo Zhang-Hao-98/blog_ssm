@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="Bolg:war">
+    <output-path>$PROJECT_DIR$/Bolg/target</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <module>Bolg</module>
+        <packaging>war</packaging>
+      </options>
+    </properties>
+    <root id="archive" name="Bolg.war">
+      <element id="artifact" artifact-name="Bolg:war exploded" />
+    </root>
+  </artifact>
+</component>
