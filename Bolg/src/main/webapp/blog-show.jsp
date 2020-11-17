@@ -191,10 +191,24 @@
 <![endif]-->
 <script src="/assets/js/amazeui.min.js"></script>
 <!-- <script src="assets/js/app.js"></script> -->
-
+<script src="\layer/layer.js"></script>
 <script type="text/javascript">
     $(function (){
-        $.post('')
+        console.info('blog_id'+${blog.blogId});
+        $.ajax({
+            url:'/comment/blogCom',
+            type:'POST',
+            data:{'blog_id':${blog.blogId}},
+            success:function (data) {
+                alert(data.toString())
+            },
+            error:function (data) {
+                layer.msg("评论获取失败！" + data.toString());
+                console.info(data);
+                console.info(data.error());
+
+            }
+        })
     })
 </script>
 </body>

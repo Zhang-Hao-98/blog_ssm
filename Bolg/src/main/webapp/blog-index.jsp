@@ -236,6 +236,7 @@
         <!--<![endif]-->
         <![endif]-->
         <script src="/assets/js/amazeui.min.js"></script>
+
     </body>
     <script>
         var pageInfo;
