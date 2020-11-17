@@ -22,6 +22,8 @@
   <meta name="msapplication-TileColor" content="#0e90d2">
   <link rel="stylesheet" href="/assets/css/amazeui.min.css">
   <link rel="stylesheet" href="/assets/css/app.css">
+
+    <script src="assets/js/jquery-2.1.4.min.js"></script>
 </head>
 
 <body id="blog-article-sidebar">
@@ -122,7 +124,25 @@
         </form>
 
         <hr>
-        0
+
+        <article class="am-comment"> <!-- 评论容器 -->
+            <a href="">
+                <img class="am-comment-avatar" alt="" src="/assets/images/face/1.png"/> <!-- 评论者头像 -->
+            </a>
+
+            <div class="am-comment-main"> <!-- 评论内容容器 -->
+                <header class="am-comment-hd">
+                    <!--<h3 class="am-comment-title">评论标题</h3>-->
+                    <div class="am-comment-meta"> <!-- 评论元数据 -->
+                        <a href="#link-to-user" class="am-comment-author">..</a> <!-- 评论者 -->
+                        评论于 <time datetime="">...</time>
+                    </div>
+                </header>
+
+                <div class="am-comment-bd">...</div> <!-- 评论内容 -->
+            </div>
+        </article>
+
     </div>
 </div>
 <!-- content end -->
@@ -173,7 +193,9 @@
 <!-- <script src="assets/js/app.js"></script> -->
 
 <script type="text/javascript">
-
+    $(function (){
+        $.post('')
+    })
 </script>
 </body>
 </html>
