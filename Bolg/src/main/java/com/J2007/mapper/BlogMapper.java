@@ -8,6 +8,18 @@ import java.util.List;
 
 public interface BlogMapper {
 
+    @Results(
+            id = "blogMap",
+            value = {
+                    @Result(id = true,column = "blogid",property = "blogId"),
+                    @Result(column = "categroyid",property = "categroy",
+                            one = @One(select = "com.J2007.mapper.CategroyMapper.selectById",fetchType = FetchType.LAZY)),
+                    @Result(column = "publishtime",property = "publishTime"),
+                    @Result(column = "userid",property ="user",
+                            one = @One(select = "com.J2007.mapper.UserMapper.findById",fetchType = FetchType.LAZY))
+            }
+    )
+
     @Insert("insert into blog " +
             "values(null,#{title}," +
             "#{content}," +
@@ -46,17 +58,7 @@ public interface BlogMapper {
     boolean updateBlog(Blog blog);
 
     @Select("select * from blog where blogid=#{blogId}")
-    @Results(
-            id = "blogMap",
-            value = {
-                    @Result(id = true,column = "blogid",property = "blogId"),
-                    @Result(column = "categroyid",property = "categroy",
-                    one = @One(select = "com.J2007.mapper.CategroyMapper.selectById",fetchType = FetchType.LAZY)),
-                    @Result(column = "publishtime",property = "publishTime"),
-                    @Result(column = "userid",property ="user",
-                    one = @One(select = "com.J2007.mapper.UserMapper.findById",fetchType = FetchType.LAZY))
-            }
-    )
+    @ResultMap("blogMap")
     Blog selectById(int blogId);
 
     @Select("select * from blog where userid=#{userId}")

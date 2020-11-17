@@ -16,7 +16,7 @@ import java.util.Date;
 @NoArgsConstructor
 public class Comment {
     private int com_id;
-    private  Blog blog_id;
+    private  Blog blog;
     private String com_content;
     private User com_send;
     private Date com_time;
