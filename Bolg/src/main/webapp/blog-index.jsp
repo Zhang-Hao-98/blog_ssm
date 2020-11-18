@@ -47,7 +47,7 @@
                             <c:choose>
                                 <c:when test="${!empty sessionScope.user}">
                                     <li><a href="/user-index.jsp">个人中心</a></li>
-                                    <li><a href="lw-index-nosidebar.html">博客</a></li>
+                                    <li><a href="/blog-my-list.jsp">博客</a></li>
                                     <li><a href="/user/loginOut">退出</a></li>
                                 </c:when>
                                 <c:when test="${empty sessionScope.user}">
@@ -274,33 +274,5 @@
             });
         }
 
-        // //分页连接
-        // function genPageLink(pd) {
-        //     var ul = '<ul class="pagination">';
-        //     if (pd.currentPage == 1) {
-        //         ul += '<li class="disabled"><a href="javascript:goPage(' + pd.previous + ');">&laquo;</a></li>';
-        //     } else {
-        //         ul += '<li><a href="javascript:goPage(' + pd.previous + ')">&laquo;</a></li>';
-        //     }
-        //
-        //     //中间也
-        //     for (var i = 0; i < pd.totalPage; i++) {
-        //         if (pd.currentPage == i) {
-        //             ul += '<li class="active"><a href="javascript:goPage(' + i + ');">' + i + '</a></li>';
-        //         } else {
-        //             ul += '<li ><a href="javascript:goPage(' + i + ');">' + i + '</a></li>';
-        //         }
-        //     }
-        //
-        //     //下一页
-        //     if (pd.currentPage == pd.totalPage) {
-        //         ul += '<li class="disabled"><a href="javascript:goPage(' + pd.next + ');">&raquo;</a></li>';
-        //     } else {
-        //         ul += '<li><a href="javascript:goPage(' + pd.next + ');">&raquo;</a></li>';
-        //     }
-        //     ul += '</ul>';
-        //
-        //     $('#pagination')[0].innerHTML = ul;
-        // }
     </script>
 </html>

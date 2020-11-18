@@ -2,6 +2,7 @@ package com.J2007.service.serviceImpl;
 
 import com.J2007.mapper.CommentMapper;
 import com.J2007.pojo.Comment;
+import com.J2007.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,19 +14,19 @@ import java.util.List;
  * @date 2020/11/17 9:30
  */
 @Service
-public class CommentServiceImpl implements CommentMapper{
+public class CommentServiceImpl implements CommentService {
 
     @Autowired
     private CommentMapper commentMapper;
 
 
     @Override
-    public boolean AddComment(Comment comment) {
+    public int AddComment(Comment comment) {
         return commentMapper.AddComment(comment);
     }
 
     @Override
-    public List<Comment> findAll() {
+    public List<Comment> findByAll() {
         return commentMapper.findAll();
     }
 

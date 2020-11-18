@@ -26,7 +26,7 @@
   /**
    * @class core.func
    *
-   * func utils (for high-order func's arg)
+   * func com.J2007.utils (for high-order func's arg)
    *
    * @singleton
    * @alternateClassName func
@@ -153,7 +153,7 @@
   /**
    * @class core.list
    *
-   * list utils
+   * list com.J2007.utils
    *
    * @singleton
    * @alternateClassName list

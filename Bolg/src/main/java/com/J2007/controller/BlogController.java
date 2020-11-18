@@ -13,8 +13,8 @@ import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import utils.State;
-import utils.WangEditor;
+import com.J2007.utils.State;
+import com.J2007.utils.WangEditor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -46,6 +46,13 @@ public class BlogController {
     @ResponseBody
     public State toBlogList(@PathVariable("pageNum")int pageNum) {
         PageInfo<Blog> pageInfo = blogService.findBlogTysPage(pageNum, 5);
+        return State.success().add("pageInfo", pageInfo);
+    }
+
+    @RequestMapping("myBlogList/{pageNum}/{userId}")
+    @ResponseBody
+    public State myBlogList(@PathVariable("pageNum")int pageNum,@PathVariable("userId")int userId) {
+        PageInfo<Blog> pageInfo = blogService.findByUser(userId, pageNum, 10);
         return State.success().add("pageInfo", pageInfo);
     }
 

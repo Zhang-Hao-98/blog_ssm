@@ -11,7 +11,7 @@ import java.util.List;
  */
 public interface CommentService {
 
-    public boolean AddComment(Comment comment);
+    public int AddComment(Comment comment);
 
     public List<Comment> findByAll();
 

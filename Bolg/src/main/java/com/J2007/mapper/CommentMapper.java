@@ -19,20 +19,19 @@ public interface CommentMapper {
 
     @Insert("insert into comment " +
             "values(" +
-            "#{com_id}，" +
-            "#{blog.blog_id}," +
+            "#{com_id}," +
+            "#{blog_id}," +
             "#{com_content}," +
             "#{com_send.userId}," +
             "#{com_time})")
-    boolean AddComment(Comment comment);
+    int AddComment(Comment comment);
 
     @Select("select * from comment")
     @Results(
             id = "comMap",
             value = {
                     @Result(id = true,column = "com_id",property = "com_id"),
-                    @Result(column = "blog_id",property = "blog",
-                            one = @One(select = "com.J2007.mapper.BlogMapper.selectById",fetchType = FetchType.LAZY)),
+                    @Result(column = "blog_id",property = "blog_id"),
                     @Result(column = "com_content",property = "com_content"),
                     @Result(column = "com_send",property ="com_send",
                             one = @One(select = "com.J2007.mapper.UserMapper.findById",fetchType = FetchType.LAZY)),
@@ -41,11 +40,11 @@ public interface CommentMapper {
     )
     List<Comment> findAll();
 
-    @Select("select * from comment where blog_id = #{blog_id}")
+    @Select("select * from comment where blog_id = #{blog_id} order by com_time desc")
     @ResultMap("comMap")
     List<Comment> findByBlog(int blog_id);
 
-    @Select("select * from comment where com_send = #{com_send}")
+    @Select("select * from comment where com_send = #{com_send} order by com_time desc")
     @ResultMap("comMap")
     List<Comment> findBySend(int com_send);
 

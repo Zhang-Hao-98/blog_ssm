@@ -23,7 +23,7 @@
   <link rel="stylesheet" href="/assets/css/amazeui.min.css">
   <link rel="stylesheet" href="/assets/css/app.css">
 
-    <script src="assets/js/jquery-2.1.4.min.js"></script>
+    <script src="/assets/js/jquery-2.1.4.min.js"></script>
 </head>
 
 <body id="blog-article-sidebar">
@@ -97,7 +97,7 @@
         <hr>
         <div class="am-g blog-author blog-article-margin">
           <div class="am-u-sm-3 am-u-md-3 am-u-lg-2">
-            <img src="assets/i/f15.jpg" alt="" class="blog-author-img am-circle">
+            <img src="/assets/i/f15.jpg" alt="" class="blog-author-img am-circle">
           </div>
           <div class="am-u-sm-9 am-u-md-9 am-u-lg-10">
           <h3><span>作者 &nbsp;: &nbsp;</span><span class="blog-color">${blog.user.userName}</span></h3>
@@ -116,32 +116,15 @@
             <h3 class="blog-comment">评论</h3>
           <fieldset>
             <div class="am-form-group">
-              <textarea class="" rows="5" placeholder="请输入评论"></textarea>
+              <textarea class="" rows="5" placeholder="请输入评论" id="content"></textarea>
             </div>
         
-            <p><button type="button" id="send" class="am-btn am-btn-default">发表评论</button></p>
+            <p><button type="button" id="send" class="am-btn am-btn-default" onclick="sendCom()">发表评论</button></p>
           </fieldset>
         </form>
 
-        <hr>
+        <hr id="comment-div">
 
-        <article class="am-comment"> <!-- 评论容器 -->
-            <a href="">
-                <img class="am-comment-avatar" alt="" src="/assets/images/face/1.png"/> <!-- 评论者头像 -->
-            </a>
-
-            <div class="am-comment-main"> <!-- 评论内容容器 -->
-                <header class="am-comment-hd">
-                    <!--<h3 class="am-comment-title">评论标题</h3>-->
-                    <div class="am-comment-meta"> <!-- 评论元数据 -->
-                        <a href="#link-to-user" class="am-comment-author">..</a> <!-- 评论者 -->
-                        评论于 <time datetime="">...</time>
-                    </div>
-                </header>
-
-                <div class="am-comment-bd">...</div> <!-- 评论内容 -->
-            </div>
-        </article>
 
     </div>
 </div>
@@ -191,25 +174,110 @@
 <![endif]-->
 <script src="/assets/js/amazeui.min.js"></script>
 <!-- <script src="assets/js/app.js"></script> -->
-<script src="\layer/layer.js"></script>
+<script src="/layer/layer.js"></script>
+<script src="/assets/js/dateFormat.js"></script>
+
 <script type="text/javascript">
     $(function (){
-        console.info('blog_id'+${blog.blogId});
+
+        // 获取评论
         $.ajax({
             url:'/comment/blogCom',
             type:'POST',
+            datatype:'JSON',
             data:{'blog_id':${blog.blogId}},
             success:function (data) {
-                alert(data.toString())
-            },
-            error:function (data) {
-                layer.msg("评论获取失败！" + data.toString());
-                console.info(data);
-                console.info(data.error());
+                var comList = data;
+                var str = '';
+                if (comList == null || comList.length == 0) {
+                    str = "<span>当前没有任何评论！</span>"
+                }else {
+                    for (var i = 0; i < data.length; i++) {
+                        var com = data[i];
+                        var user = com.com_send;
+                        str = comDiv(str,null, user.userName, com.com_time, com.com_content);
+                    }
+                }
+                $("#comment-div").after(str);
 
+            },
+            error:function (msg) {
+                layer.msg("评论获取失败！" + msg);
             }
+
+
         })
+
+
+
+
     })
+
+    // 发布评论
+    function sendCom() {
+        var sendBtn = $('#send');
+        var content = $('#content').val();
+        var blog_id = ${blog.blogId}
+        var send = ${sessionScope.user.userId};
+        if (content == "" || content == null) {
+            layer.msg("评论不能为空！");
+        }else if (content.length >= 100) {
+            layer.msg("评论字数不可超过100");
+        } else {
+            $.ajax({
+                url:'/comment/addCom',
+                type:'POST',
+                datatype: 'JSON',
+                data: {
+                    "blog_id":blog_id,
+                    "com_send":send,
+                    "com_content":content
+                },
+                success: function (com) {
+                    var str = '';
+                    if (com == null) {
+                        layer.msg('评论发布失败！');
+                    } else {
+                        layer.msg('评论发布成功！');
+                        $('#content').val('');
+                        str = comDiv(str, null, com.com_send.userName, com.com_time, com.com_content);
+                    }
+                    $("#comment-div").after(str);
+                },
+                error: function () {
+                    layer.msg("请求发送失败！");
+                }
+            });
+        }
+
+
+
+    }
+
+    // 评论div
+    function comDiv(str,src,name,time,content) {
+        str += " <article class=\"am-comment\"> <!-- 评论容器 -->\n" +
+            "                <a href=\"\">\n" +
+            "                    <img class=\"am-comment-avatar\" alt=\"\" src=\"/assets/images/face/1.png\"/> <!-- 评论者头像 -->\n" +
+            "                </a>\n" +
+            "\n" +
+            "                <div class='am-comment-main'> <!-- 评论内容容器 -->\n" +
+            "                    <header class='am-comment-hd'>\n" +
+            "                        <!--<h3 class=\"am-comment-title\">评论标题</h3>-->\n" +
+            "                        <div class='am-comment-meta'> <!-- 评论元数据 -->\n" +
+            "                            <a href='#link-to-user' class='am-comment-author'>  "+name+"  </a> <!-- 评论者 -->\n" +
+            "                            评论于 <time datetime=''>"+time+"</time>\n" +
+            "                        </div>\n" +
+            "                    </header>\n" +
+            "\n" +
+            "                    <div class=\"am-comment-bd\">"+content+"</div> <!-- 评论内容 -->\n" +
+            "                </div>\n" +
+            "            </article>"
+        str += "<hr/>";
+
+        return str;
+    }
+
 </script>
 </body>
 </html>
